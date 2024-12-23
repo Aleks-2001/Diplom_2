@@ -13,11 +13,4 @@ public class UserGenerator {
             return new User(email, password, name);
         }
 
-//        @Step("Generate random user without name")
-//        public static User getRandomCourierWithoutFirstName(String loginParam, String passwordParam) {
-//            String login = loginParam + RandomStringUtils.randomAlphabetic(4);
-//            String password = passwordParam + RandomStringUtils.randomAlphabetic(4);
-//            return new User(login, password);
-//        }
-
     }

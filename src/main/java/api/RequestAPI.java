@@ -2,6 +2,7 @@ package api;
 import io.qameta.allure.Step;
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.response.ValidatableResponse;
+import model.Order;
 import model.User;
 
 import static io.restassured.RestAssured.given;
@@ -22,7 +23,7 @@ public class RequestAPI {
     }
 
 
-    @Step("Send authorization request}")
+    @Step("Send authorization request")
     public ValidatableResponse sendAuthorizationRequest(User user) {
         return given()
                 .header("Content-type", "application/json")
@@ -74,6 +75,32 @@ public class RequestAPI {
                 .log().all()
                 .when()
                 .request("patch", "auth/user")
+                .then();
+    }
+
+
+    @Step("Get ingredients")
+    public ValidatableResponse getIngredientsRequest() {
+        return given()
+                .header("Content-type", "application/json")
+                .filter(new AllureRestAssured())
+                .log().all()
+                .when()
+                .request("GET", "ingredients")
+                .then();
+    }
+
+
+    @Step("Create new order")
+    public ValidatableResponse createOrderRequest(Order order) {
+        return given()
+                .header("Content-type", "application/json")
+                .when()
+                .body(order)
+                .filter(new AllureRestAssured())
+                .log().all()
+                .when()
+                .request("POST", "orders")
                 .then();
     }
 

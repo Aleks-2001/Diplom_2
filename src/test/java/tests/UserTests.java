@@ -275,7 +275,8 @@ public class UserTests {
                 .jsonPath()
                 .getString("accessToken");
 
-        // Меняем параметры юзера
+        // Меняем параметры юзера. Согласно заданию нужно "проверить, что любое поле можно изменить". Меняем сразу три.
+        // Хотя, ничто не мешает сделать три отдельных теста на каждое поле в отдельности. Полагаю, что это лишнее.
         user.setEmail("new" + user.getEmail());
         user.setPassword("new" + user.getPassword());
         user.setName("new" + user.getName());
@@ -306,14 +307,14 @@ public class UserTests {
                 .jsonPath()
                 .getString("refreshToken");
 
-        // выходим из системы после регистрации (logOut)
+        //  После регистрации отправляем запрос на выход из системы (logOut)
         ValidatableResponse responseLogOut = requestAPI.sendLogOutRequest(refreshTokenValue);
         // проверка успешного выхода
         responseLogOut.log().all()
                 .assertThat().statusCode(200)
                 .and().body("success", equalTo(true));
 
-        // Меняем имейл, имя, и пароль
+        // Меняем у юзера имейл, имя, и пароль
         String emailValue = user.getEmail();
         String passValue = user.getPassword();
         String nameValue = user.getName();
