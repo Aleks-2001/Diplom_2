@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class OrderTests {
+public class UnauthorizedUserOrderTests {
 
     private Order order;
     private RequestAPI requestAPI;

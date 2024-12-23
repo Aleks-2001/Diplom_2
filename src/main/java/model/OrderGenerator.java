@@ -44,7 +44,6 @@ public class OrderGenerator {
     private static List<String> generateOrderData() throws Exception {
         RestAssured.baseURI = "https://stellarburgers.nomoreparties.site/api/";
         RequestAPI requestAPI = new RequestAPI();
-        requestAPI.getIngredientsRequest();
         ValidatableResponse response = requestAPI.getIngredientsRequest();
         response.log().all()
                 .assertThat().statusCode(200)
