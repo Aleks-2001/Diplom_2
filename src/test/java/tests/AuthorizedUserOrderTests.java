@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AuthorizedUserOrderTests {
 
+    // Поля класса
     private Order order;
     private RequestAPI requestAPI;
     private User user;
@@ -41,15 +42,13 @@ public class AuthorizedUserOrderTests {
     @After
     @Step("after cleanUp")
     public void cleanUp() {
-        // Проверка авторизации с целью получения токена
+        // Проверка авторизации с целью получения токена для дальнейшего удаления юзера
         Allure.step("Check authorization");
         String accessTokenValue = requestAPI.sendAuthorizationRequest(user)
                 .extract()
                 .response()
                 .jsonPath()
                 .getString("accessToken");
-        // логируем accessToken
-        System.out.println("accessToken = " + accessTokenValue);
 
         // удаление юзера после теста (если токена нет - удаление не требуется).
         if (accessTokenValue != null) {
@@ -96,13 +95,31 @@ public class AuthorizedUserOrderTests {
     @DisplayName("CreateNewOrder")
     public void createIncorrectHashOrderTest() throws Exception {
         // создаем экземпляр Order со случайным набором ингредиентов -
-        // с намеренно невалидным хеш у одного из ингредиентов.
+        // с намеренно невалидным хешем у одного из ингредиентов.
         order = OrderGenerator.getIncorrectHashOrder();
         // вызываем метод отправки запроса для создания заказа
         ValidatableResponse response = requestAPI.createOrderRequest(order);
         // проверка создания заказа
         response.log().all()
                 .assertThat().statusCode(500);
+    }
+
+
+    @Test
+    @DisplayName("Get orders of specific user")
+    public void GetOrdersOfSpecificUserTest() throws Exception {
+        // Получаем accessToken для вставки в запрос
+        String accessTokenValue = requestAPI.sendAuthorizationRequest(user)
+                .extract()
+                .response()
+                .jsonPath()
+                .getString("accessToken");
+        // вызываем метод отправки запроса на получение списка заказов (авторизованный пользователь)
+        ValidatableResponse response = requestAPI.GetOrdersOfSpecificUserRequest(accessTokenValue);
+        // проверка создания заказа
+        response.log().all()
+                .assertThat().statusCode(200)
+                .and().body("success", equalTo(true));
     }
 
 

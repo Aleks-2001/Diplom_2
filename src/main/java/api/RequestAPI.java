@@ -105,4 +105,17 @@ public class RequestAPI {
     }
 
 
+    @Step("Get orders of specific user")
+    public ValidatableResponse GetOrdersOfSpecificUserRequest(String accessTokenValue) {
+        return given()
+                .header("Content-type", "application/json")
+                .header("Authorization", accessTokenValue)
+                .filter(new AllureRestAssured())
+                .log().all()
+                .when()
+                .request("GET", "orders")
+                .then();
+    }
+
+
 }

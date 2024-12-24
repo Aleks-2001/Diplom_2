@@ -32,7 +32,7 @@ public class UserTests {
     @After
     @Step("after cleanUp")
     public void cleanUp() {
-        // Проверка авторизации с целью получения токена
+        // Проверка авторизации с целью получения токена для дальнейшего удаления юзера
         Allure.step("Check authorization");
         String accessTokenValue = requestAPI.sendAuthorizationRequest(user)
                 .extract()
@@ -294,7 +294,9 @@ public class UserTests {
     @Test
     @DisplayName("Check of change data of User for unauthorized user")
     public void dataOfUserChangeForUnauthorizedUserTest() {
-        // вызываем метод отправки запроса для регистрации нового юзера
+        // В данном методе предусмотрена регистрация нового пользователя с выходом его из системы
+        // (logOut), чтобы явно был осуществлён выход,
+        // чтобы не осталось случайной авторизации от предыдущих тестов.
         ValidatableResponse response = requestAPI.sendRequest(user, "auth/register", "post");
         // проверка успешной регистрации
         response.log().all()

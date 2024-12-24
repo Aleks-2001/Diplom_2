@@ -65,4 +65,16 @@ public class UnauthorizedUserOrderTests {
     }
 
 
+    @Test
+    @DisplayName("Get orders of specific without authorization user")
+    public void GetOrdersOfSpecificUserWithoutAuthorizationTest() throws Exception {
+        // вызываем метод отправки запроса на получение списка заказов без accessToken (неавторизованный пользователь)
+        ValidatableResponse response = requestAPI.GetOrdersOfSpecificUserRequest("");
+        // проверка создания заказа
+        response.log().all()
+                .assertThat().statusCode(401)
+                .and().body("message", equalTo("You should be authorised"));
+    }
+
+
 }

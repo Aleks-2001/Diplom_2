@@ -18,6 +18,7 @@ public class OrderGenerator {
 
     @Step("Generate order with random ingredients")
     public static Order getRandomOrder() throws Exception {
+        // Метод создания заказа со случайным набором ингредиентов
         List<String> ingredients = generateOrderData();
         return new Order(ingredients);
     }
@@ -25,6 +26,7 @@ public class OrderGenerator {
 
     @Step("Generate order without ingredients")
     public static Order getOrderWithoutIngredients() {
+        // Метод создания заказа без ингредиентов (пустой список)
         List<String> ingredients = new ArrayList<>();
         return new Order(ingredients);
     }
@@ -32,8 +34,9 @@ public class OrderGenerator {
 
     @Step("Generate order with ingredients with an incorrect hash")
     public static Order getIncorrectHashOrder() throws Exception {
+        // Метод создания заказа с намеренно невалидным хешем у одного из ингредиентов
         List<String> ingredients = generateOrderData();
-        ingredients.set(0, "anotherHash");
+        ingredients.set(0, "incorrectHash");
         System.out.println(ingredients);
         return new Order(ingredients);
     }

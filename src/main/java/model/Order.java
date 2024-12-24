@@ -9,5 +9,5 @@ import java.util.List;
 @AllArgsConstructor
 public class Order {
     // поля класса
-    List ingredients;
+    List<String> ingredients;
 }
