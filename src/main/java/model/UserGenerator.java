@@ -1,16 +1,17 @@
 package model;
 
+import com.github.javafaker.Faker;
 import io.qameta.allure.Step;
-import org.apache.commons.lang3.RandomStringUtils;
 
 public class UserGenerator {
 
         @Step("Generate random user")
         public static User getRandomUser() {
             // Метод создания Юзера со случайным набором параметров
-            String email = RandomStringUtils.random(10, "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%&'*+-/=?^_`{|}~") + "@someMail.com";
-            String password = RandomStringUtils.randomAlphabetic(8);
-            String name = "Name_" + RandomStringUtils.randomAlphabetic(4);
+            Faker faker = new Faker(new java.util.Locale("en"));
+            String email = faker.internet().emailAddress();
+            String password = faker.internet().password(8, 16, true, true);
+            String name = faker.name().fullName();
             return new User(email, password, name);
         }
 
